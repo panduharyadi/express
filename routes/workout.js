@@ -1,45 +1,28 @@
 const express = require('express')
 const router = express.Router()
 
-// include model
-const Workout = require('../models/Workout')
+// include controller 
+const { 
+    getWorkouts,
+    getWorkout,
+    createWorkout,
+    deleteWorkout,
+    updateWorkout
+ } = require("../controllers/workoutController")
 
 // get all
-router.get('/', (req, res) => {
-    res.json({mssg: 'GET All Data'})
-})
+router.get('/', getWorkouts)
 
 // get single data
-router.get('/:id', (req, res) => {
-    res.json({mssg: 'Get single data'})
-})
+router.get('/:id', getWorkout)
 
 // post single data
-router.post('/add', async(req, res) => {
-    // inisialisasi field yang dari database masukin ke req method
-    const { title, reps, load } = req.body
-
-    try{
-        const workout = await Workout.create({ title, reps, load })
-        res.status(200).json(workout)
-    } catch(error) {
-        res.status(400).json({error: error.message})
-    }
-}) 
-
-// update all data
-router.put('/update', (req, res) => {
-    res.json({mssg: 'update all data'})
-})
+router.post('/add', createWorkout) 
 
 // update single data
-router.patch('/update/:id', (req, res) => {
-    res.json({mssg: 'update single data'})
-})
+router.patch('/update/:id', updateWorkout)
 
 // delete single data
-router.delete('/delete/:id', (req, res) => {
-    res.json({mssg: 'delete single data'})
-})
+router.delete('/delete/:id', deleteWorkout)
 
 module.exports = router
